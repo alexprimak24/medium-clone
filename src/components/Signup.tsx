@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import authService from "../services/appwrite/auth";
 
 type FormFields = {
   email: string;
   password: string;
 };
 
-function AuthWindow() {
+function Signup() {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isSubmitting },
   } = useForm<FormFields>({
     defaultValues: {
@@ -21,14 +21,12 @@ function AuthWindow() {
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     //in case we receive some error in the backend or our request failed
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      //   throw new Error();
-      console.log(data);
+      await authService.getCurrentUser();
+      const result = await authService.createAccount(data);
+
+      console.log(result);
     } catch (error) {
-      //use  setError("root" - if we want to show not for the specific field
-      setError("email", {
-        message: "This email is already taken",
-      });
+      console.log(error);
     }
   };
   return (
@@ -63,4 +61,4 @@ function AuthWindow() {
   );
 }
 
-export default AuthWindow;
+export default Signup;
