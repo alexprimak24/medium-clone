@@ -21,7 +21,20 @@ function Signup() {
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     //in case we receive some error in the backend or our request failed
     try {
-      await authService.getCurrentUser();
+      // const { email, password } = data;
+      // const client = new Client()
+      //   .setEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
+      //   .setProject("66d9f0200003a8d498ba"); // Your project ID
+
+      // const account = new Account(client);
+
+      // const result = await account.create(
+      //   ID.unique(), // userId
+      //   email,
+      //   password
+      // );
+
+      // console.log(result);
       const result = await authService.createAccount(data);
 
       console.log(result);
