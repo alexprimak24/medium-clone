@@ -1,12 +1,11 @@
 import React from "react";
 import "./App.css";
-import Signup from "./components/Signup";
+import AuthWindow from "./components/AuthWindow";
 
 function App() {
   return (
-    <div className="App">
-      <h1>SignUp</h1>
-      <Signup />
+    <div className="relative">
+      <AuthWindow />
     </div>
   );
 }

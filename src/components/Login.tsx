@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import authService from "../services/appwrite/auth";
+import Input from "@mui/material/Input";
+import Button from "@mui/material/Button";
 
 type FormFields = {
   email: string;
@@ -21,8 +24,9 @@ function Login() {
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     //in case we receive some error in the backend or our request failed
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log(data);
+      const result = await authService.login(data);
+
+      console.log(result);
     } catch (error) {
       //use  setError("root" - if we want to show not for the specific field
       setError("email", {
@@ -31,8 +35,11 @@ function Login() {
     }
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-8 my-8"
+    >
+      <Input
         {...register("email", {
           required: "Email is required",
           validate: (value) => {
@@ -44,20 +51,24 @@ function Login() {
         })}
         type="text"
         placeholder="Email"
+        //!! - convert errors.email into boolean
+        error={!!errors.email}
       />
       {errors.email && <div className="">{errors.email.message}</div>}
-      <input
+      <Input
         {...register("password", {
           required: "Password is required",
           minLength: { value: 8, message: "Password is too short" },
         })}
         type="password"
         placeholder="Password"
+        //!! - convert errors.password into boolean
+        error={!!errors.password}
       />
       {errors.password && <div className="">{errors.password.message}</div>}
-      <button disabled={isSubmitting} type="submit">
+      <Button variant="contained" disabled={isSubmitting} type="submit">
         {isSubmitting ? "Loading" : "Submit"}
-      </button>
+      </Button>
     </form>
   );
 }

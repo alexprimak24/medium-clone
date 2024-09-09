@@ -1,7 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body,
 html {
-  background-color: #181818;
-  color: aliceblue;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -9,9 +11,13 @@ html {
 }
 
 body {
+  background-color: #181818;
   margin: 0 auto;
   padding: 10px, 0, 50px, 0;
-  max-width: 1560px;
+  font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
