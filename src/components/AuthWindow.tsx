@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import FormStyle from "./ui/FormStyle";
 import Button from "@mui/material/Button";
-import Login from "./Login";
-import Signup from "./Signup";
+import Login from "../pages/LoginScreen";
+import Signup from "../pages/SignupScreen";
+import { Link } from "react-router-dom";
 
 export enum Auth {
   Login = "login",
@@ -17,7 +18,7 @@ function AuthWindow() {
       variant={action === authType ? "outlined" : undefined}
       onClick={() => setAction(authType)}
     >
-      {label}
+      <Link to={"/" + label.toLowerCase()}>{label}</Link>
     </Button>
   );
 

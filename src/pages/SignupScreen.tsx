@@ -5,6 +5,7 @@ import Input from "@mui/material/Input";
 import Button from "@mui/material/Button";
 
 type FormFields = {
+  name: string;
   email: string;
   password: string;
   confirm_password: string;
@@ -16,8 +17,10 @@ function Signup() {
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
+    reset,
   } = useForm<FormFields>({
     defaultValues: {
+      name: "alexprimak",
       email: "test@email.com",
     },
   });
@@ -26,8 +29,10 @@ function Signup() {
     //in case we receive some error in the backend or our request failed
     try {
       const result = await authService.createAccount(data);
-
-      console.log(result);
+      if (result) {
+        reset();
+        console.log(result);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -37,6 +42,20 @@ function Signup() {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-8 my-8"
     >
+      <Input
+        {...register("name", {
+          required: "name is required",
+          minLength: {
+            value: 3,
+            message: "name should be at least 3 chars long",
+          },
+        })}
+        type="text"
+        placeholder="name"
+        //!! - convert errors.email into boolean
+        error={!!errors.name}
+      />
+      {errors.name && <div className="">{errors.name.message}</div>}
       <Input
         {...register("email", {
           required: "Email is required",
@@ -69,7 +88,7 @@ function Signup() {
           required: "Please repeat the password",
           minLength: { value: 8, message: "Password is too short" },
           validate: (val: string) => {
-            if (watch("password") != val) {
+            if (watch("password") !== val) {
               return "Password should match!";
             }
           },
